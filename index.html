@@ -224,30 +224,31 @@ h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;line-height:1.08;}
 .hero__meta-item{display:flex;align-items:center;gap:.6rem;font-family:var(--font-mono);font-size:.78rem;color:var(--c-ash-light);}
 .hero__meta-item .icon{width:1.1em;height:1.1em;color:var(--c-chopp);}
 
-.hero__art{position:relative;display:flex;justify-content:center;}
-.hero__glass{width:min(300px,72vw);filter:drop-shadow(0 30px 50px rgba(0,0,0,.45));}
-.hero__glass-outline{fill:rgba(250,245,231,.04);stroke:rgba(250,245,231,.55);stroke-width:3;}
-.hero__liquid{fill:var(--c-chopp);transform:scaleY(0);transform-origin:bottom;transform-box:fill-box;
-  animation:fillLiquid 1.6s .3s var(--ease) forwards;}
-.hero__foam{fill:var(--c-foam);opacity:0;animation:fadeIn .6s 1.7s var(--ease) forwards;}
-.hero__bubble{fill:rgba(250,245,231,.85);opacity:0;animation:riseBubble 3s ease-in infinite;}
-.b1{animation-delay:2.1s;} .b2{animation-delay:2.6s;} .b3{animation-delay:2.9s;} .b4{animation-delay:2.3s;}
-
-.hero__tap{position:absolute;top:-6px;right:calc(50% - 30px);width:74px;color:var(--c-ash-light);opacity:.9;}
-@media(min-width:960px){.hero__tap{right:14%;}}
-
-@keyframes fillLiquid{to{transform:scaleY(1);}}
-@keyframes fadeIn{to{opacity:1;}}
-@keyframes riseBubble{
-  0%{opacity:0;transform:translateY(0);}
-  15%{opacity:.9;}
-  90%{opacity:0;}
-  100%{transform:translateY(-220px);opacity:0;}
+.hero__art{position:relative;display:flex;justify-content:center;align-items:center;}
+.hero__art-glow{
+  position:absolute;width:115%;height:115%;border-radius:50%;
+  background:radial-gradient(circle, rgba(232,169,52,.22) 0%, rgba(193,101,47,.12) 40%, transparent 70%);
+  filter:blur(36px);pointer-events:none;z-index:0;
 }
-@media (prefers-reduced-motion: reduce){
-  .hero__liquid{animation:none;transform:scaleY(1);}
-  .hero__foam{animation:none;opacity:1;}
-  .hero__bubble{animation:none;opacity:0;}
+.hero__frame{
+  position:relative;z-index:1;width:100%;max-width:480px;
+  border-radius:var(--radius-l);overflow:hidden;
+  border:1.5px solid rgba(232,169,52,.35);
+  box-shadow:0 30px 65px -20px rgba(0,0,0,.75), 0 0 45px -10px rgba(232,169,52,.25);
+  background:#fff;
+  transition:transform .4s var(--ease),box-shadow .4s var(--ease),border-color .4s var(--ease);
+}
+.hero__frame:hover{
+  transform:translateY(-4px);
+  border-color:rgba(232,169,52,.6);
+  box-shadow:0 36px 75px -20px rgba(0,0,0,.8), 0 0 55px -5px rgba(232,169,52,.4);
+}
+.hero__img{
+  width:100%;height:auto;display:block;
+  transition:transform .5s var(--ease);
+}
+.hero__frame:hover .hero__img{
+  transform:scale(1.025);
 }
 
 /* ============================= TICKER ============================= */
@@ -294,18 +295,66 @@ h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;line-height:1.08;}
 
 /* ============================= CHOPPS ============================= */
 .chopp-grid{display:grid;gap:1.5rem;}
-@media(min-width:680px){.chopp-grid{grid-template-columns:repeat(2,1fr);}}
+@media(min-width:640px){.chopp-grid{grid-template-columns:repeat(2,1fr);}}
 @media(min-width:1024px){.chopp-grid{grid-template-columns:repeat(3,1fr);}}
+@media(min-width:1200px){.chopp-grid{grid-template-columns:repeat(4,1fr);}}
 .chopp-card{
-  background:#fff;border-radius:var(--radius-m);padding:1.85rem;
+  background:#fff;border-radius:var(--radius-m);padding:1.4rem;
   border:1px solid rgba(32,22,14,.08);box-shadow:0 18px 34px -26px rgba(32,22,14,.35);
+  display:flex;flex-direction:column;
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease),border-color .35s var(--ease);
 }
-.chopp-card__top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.1rem;}
-.chopp-card__glass{width:34px;height:34px;color:var(--c-copper);}
-.chopp-card__abv{font-family:var(--font-mono);font-size:.78rem;background:var(--c-foam-2);
-  padding:.3rem .65rem;border-radius:999px;color:var(--c-copper-2);}
-.chopp-card__title{font-size:1.25rem;margin-bottom:.55rem;}
-.chopp-card__text{color:var(--c-ash);font-size:.92rem;}
+.chopp-card:hover{
+  transform:translateY(-4px);box-shadow:0 24px 44px -20px rgba(32,22,14,.25);
+  border-color:rgba(232,169,52,.45);
+}
+.chopp-card__media{
+  position:relative;border-radius:var(--radius-s);
+  background:radial-gradient(circle at 50% 65%, rgba(243,195,104,.2) 0%, rgba(241,231,205,.35) 60%, rgba(250,245,231,.15) 100%);
+  border:1px solid rgba(232,169,52,.14);
+  display:flex;align-items:center;justify-content:center;
+  height:210px;padding:1rem;overflow:hidden;margin-bottom:1rem;
+}
+.chopp-card__img{
+  max-height:100%;width:auto;object-fit:contain;
+  filter:drop-shadow(0 12px 16px rgba(32,22,14,.18));
+  transition:transform .4s var(--ease);
+}
+.chopp-card:hover .chopp-card__img{transform:scale(1.06);}
+.chopp-card__meta{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap;margin-bottom:.75rem;}
+.chopp-card__abv{
+  font-family:var(--font-mono);font-size:.75rem;font-weight:600;
+  background:var(--c-foam-2);padding:.25rem .6rem;border-radius:999px;
+  color:var(--c-copper-2);letter-spacing:.02em;
+}
+.chopp-card__ibu{
+  font-family:var(--font-mono);font-size:.75rem;font-weight:600;
+  background:rgba(232,169,52,.15);padding:.25rem .6rem;border-radius:999px;
+  color:var(--c-malt-2);letter-spacing:.02em;
+}
+.chopp-card__title{font-size:1.3rem;margin-bottom:.55rem;color:var(--c-ink);line-height:1.2;}
+.chopp-card__text{color:var(--c-ash);font-size:.88rem;line-height:1.55;flex-grow:1;margin-bottom:1.2rem;}
+.chopp-card__footer{
+  margin-top:auto;display:flex;flex-direction:column;gap:.85rem;
+  padding-top:1rem;border-top:1px dashed rgba(32,22,14,.12);
+}
+.chopp-card__format{
+  display:flex;align-items:center;gap:.45rem;
+  font-family:var(--font-mono);font-size:.74rem;color:var(--c-ash);
+}
+.chopp-card__format .icon{width:1.15em;height:1.15em;color:var(--c-chopp);}
+.btn--chopp{
+  width:100%;padding:.65rem 1rem;font-size:.85rem;border-radius:999px;
+  border:1px solid rgba(32,22,14,.14);background:rgba(250,245,231,.65);
+  color:var(--c-malt-2);display:inline-flex;align-items:center;justify-content:center;
+  gap:.45rem;font-weight:600;transition:all .25s var(--ease);
+}
+.btn--chopp .icon{width:1.1em;height:1.1em;color:var(--c-copper);transition:color .25s var(--ease);}
+.btn--chopp:hover{
+  background:var(--c-chopp);border-color:var(--c-chopp);color:var(--c-night);
+  transform:translateY(-1px);box-shadow:0 8px 18px -8px rgba(232,169,52,.6);
+}
+.btn--chopp:hover .icon{color:var(--c-night);}
 
 /* ============================= CHOPEIRAS ============================= */
 .equip-grid{display:grid;gap:1.5rem;}
@@ -357,11 +406,28 @@ h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;line-height:1.08;}
 /* ============================= SOBRE ============================= */
 .about{display:grid;gap:3rem;}
 @media(min-width:960px){.about{grid-template-columns:.85fr 1.15fr;align-items:center;}}
-.about__badge{
-  aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 30%, var(--c-chopp-2), var(--c-copper) 70%);
-  display:flex;align-items:center;justify-content:center;color:var(--c-night);padding:2.5rem;max-width:280px;margin-inline:auto;
+.about__media{
+  position:relative;display:flex;justify-content:center;align-items:center;
 }
-.about__badge .icon{width:100%;height:100%;stroke-width:1.1;}
+.about__frame{
+  width:100%;max-width:360px;aspect-ratio:1;
+  border-radius:var(--radius-l);overflow:hidden;
+  border:2px solid rgba(232,169,52,.35);
+  box-shadow:0 24px 50px -20px rgba(32,22,14,.3), 0 0 35px -8px rgba(232,169,52,.2);
+  background:#fff;
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease),border-color .35s var(--ease);
+}
+.about__frame:hover{
+  transform:translateY(-4px);border-color:rgba(232,169,52,.6);
+  box-shadow:0 30px 60px -20px rgba(32,22,14,.38), 0 0 45px -5px rgba(232,169,52,.35);
+}
+.about__img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .4s var(--ease);
+}
+.about__frame:hover .about__img{
+  transform:scale(1.03);
+}
 .about__text p{margin-bottom:1.1rem;color:var(--c-ash);font-size:1.02rem;}
 .about__stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem;}
 .stat{border-left:2px solid var(--c-copper);padding-left:.9rem;}
@@ -552,25 +618,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </div>
 
-      <div class="hero__art" aria-hidden="true">
-        <svg viewBox="0 0 360 460" class="hero__glass">
-          <defs><clipPath id="glassClip"><path d="M70 40 L290 40 L262 420 Q180 448 98 420 Z"/></clipPath></defs>
-          <path class="hero__glass-outline" d="M70 40 L290 40 L262 420 Q180 448 98 420 Z"/>
-          <g clip-path="url(#glassClip)">
-            <rect class="hero__liquid" x="60" y="118" width="240" height="342"/>
-            <path class="hero__foam" d="M60 118 q20 -20 40 0 q20 -20 40 0 q20 -20 40 0 q20 -20 40 0 q20 -20 40 0 v40 h-240 z"/>
-            <circle class="hero__bubble b1" cx="120" cy="380" r="4"/>
-            <circle class="hero__bubble b2" cx="180" cy="400" r="3"/>
-            <circle class="hero__bubble b3" cx="220" cy="360" r="5"/>
-            <circle class="hero__bubble b4" cx="150" cy="340" r="3.5"/>
-          </g>
-        </svg>
-        <div class="hero__tap">
-          <svg viewBox="0 0 120 90" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="50" y="4" width="20" height="46" rx="6"/>
-            <rect x="16" y="14" width="88" height="20" rx="10"/>
-            <circle cx="60" cy="24" r="7"/>
-          </svg>
+      <div class="hero__art" data-reveal>
+        <div class="hero__art-glow" aria-hidden="true"></div>
+        <div class="hero__frame">
+          <img class="hero__img" src="images/caneca_anbier.jpg" alt="Pede um Chopp - Anbier Cervejaria Cantareira e Região" width="969" height="882" fetchpriority="high">
         </div>
       </div>
     </div>
@@ -666,35 +717,180 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <p class="section-sub">Produzidos com o processo e o controle de qualidade da Cervejaria Anbier. Escolha um estilo ou monte um combo com mais de um rótulo.</p>
       </div>
       <div class="chopp-grid" data-reveal>
+        <!-- 1. Chopp Pilsen -->
         <div class="chopp-card">
-          <div class="chopp-card__top"><svg class="chopp-card__glass"><use href="#i-glass"/></svg><span class="chopp-card__abv">ABV 4,7%</span></div>
-          <h3 class="chopp-card__title">Pilsen Premium</h3>
-          <p class="chopp-card__text">Leve, refrescante e com espuma cremosa. O clássico que agrada praticamente qualquer paladar.</p>
+          <div class="chopp-card__media">
+            <img class="chopp-card__img" src="images/chopp/pilsen.png" alt="Chopp Pilsen Anbier" width="340" height="227" loading="lazy" decoding="async">
+          </div>
+          <div class="chopp-card__meta">
+            <span class="chopp-card__abv">ABV 4,5% - 5,5%</span>
+            <span class="chopp-card__ibu">IBU 08</span>
+          </div>
+          <h3 class="chopp-card__title">Chopp Pilsen</h3>
+          <p class="chopp-card__text">Refrescante, leve e irresistível! O Chopp Pilsen Anbier combina sabor suave, espuma cremosa e aquele equilíbrio perfeito que conquista qualquer paladar. A escolha certa para vender muito e agradar todos os clientes.</p>
+          <div class="chopp-card__footer">
+            <div class="chopp-card__format">
+              <svg class="icon"><use href="#i-barrel"/></svg>
+              <span>Barril 30L / 50L · Growler 1L</span>
+            </div>
+            <a class="btn btn--chopp" href="https://wa.me/5511954108871?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20gostaria%20de%20um%20or%C3%A7amento%20do%20Chopp%20Pilsen%20Anbier." target="_blank" rel="noopener">
+              <svg class="icon"><use href="#i-chat"/></svg> Pedir no WhatsApp
+            </a>
+          </div>
         </div>
+
+        <!-- 2. Chopp IPA -->
         <div class="chopp-card">
-          <div class="chopp-card__top"><svg class="chopp-card__glass"><use href="#i-glass"/></svg><span class="chopp-card__abv">ABV 5,8%</span></div>
-          <h3 class="chopp-card__title">IPA Lupulada</h3>
-          <p class="chopp-card__text">Aromática, com amargor moderado e notas cítricas. Para convidados que curtem um chopp mais encorpado.</p>
+          <div class="chopp-card__media">
+            <img class="chopp-card__img" src="images/chopp/ipa.png" alt="Chopp IPA Anbier" width="340" height="227" loading="lazy" decoding="async">
+          </div>
+          <div class="chopp-card__meta">
+            <span class="chopp-card__abv">ABV 5,5% - 7,5%</span>
+            <span class="chopp-card__ibu">IBU 50</span>
+          </div>
+          <h3 class="chopp-card__title">Chopp IPA</h3>
+          <p class="chopp-card__text">O Chopp IPA Anbier entrega intensidade e personalidade! Aromas cítricos e frutados, amargor marcante e sabor encorpado fazem desta IPA a escolha perfeita para quem busca uma experiência mais forte e cheia de atitude. Um chopp diferenciado que atrai apreciadores.</p>
+          <div class="chopp-card__footer">
+            <div class="chopp-card__format">
+              <svg class="icon"><use href="#i-barrel"/></svg>
+              <span>Barril 30L / 50L · Growler 1L</span>
+            </div>
+            <a class="btn btn--chopp" href="https://wa.me/5511954108871?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20gostaria%20de%20um%20or%C3%A7amento%20do%20Chopp%20IPA%20Anbier." target="_blank" rel="noopener">
+              <svg class="icon"><use href="#i-chat"/></svg> Pedir no WhatsApp
+            </a>
+          </div>
         </div>
+
+        <!-- 3. Chopp Rosé -->
         <div class="chopp-card">
-          <div class="chopp-card__top"><svg class="chopp-card__glass"><use href="#i-glass"/></svg><span class="chopp-card__abv">ABV 5,2%</span></div>
-          <h3 class="chopp-card__title">Weiss de Trigo</h3>
-          <p class="chopp-card__text">Turva e aromática, com notas de banana e cravo. Uma opção diferente pra surpreender a festa.</p>
+          <div class="chopp-card__media">
+            <img class="chopp-card__img" src="images/chopp/rose.png" alt="Chopp Rosé Anbier" width="340" height="227" loading="lazy" decoding="async">
+          </div>
+          <div class="chopp-card__meta">
+            <span class="chopp-card__abv">ABV 4,4%</span>
+            <span class="chopp-card__ibu">IBU 10 - 25</span>
+          </div>
+          <h3 class="chopp-card__title">Chopp Rosé</h3>
+          <p class="chopp-card__text">O Chopp Rosé Anbier destaca-se pela coloração rosada vibrante e pelo perfil levemente frutado. Combina a refrescância do chopp claro com notas sutis de frutas vermelhas, resultando em uma bebida delicada, suave e com dulçor equilibrado. Ideal para quem busca uma opção leve, elegante e diferenciada.</p>
+          <div class="chopp-card__footer">
+            <div class="chopp-card__format">
+              <svg class="icon"><use href="#i-barrel"/></svg>
+              <span>Barril 30L / 50L · Growler 1L</span>
+            </div>
+            <a class="btn btn--chopp" href="https://wa.me/5511954108871?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20gostaria%20de%20um%20or%C3%A7amento%20do%20Chopp%20Ros%C3%A9%20Anbier." target="_blank" rel="noopener">
+              <svg class="icon"><use href="#i-chat"/></svg> Pedir no WhatsApp
+            </a>
+          </div>
         </div>
+
+        <!-- 4. Chopp Ice -->
         <div class="chopp-card">
-          <div class="chopp-card__top"><svg class="chopp-card__glass"><use href="#i-glass"/></svg><span class="chopp-card__abv">ABV 4,9%</span></div>
-          <h3 class="chopp-card__title">Escura Dunkel</h3>
-          <p class="chopp-card__text">Maltada, com corpo aveludado e final adocicado. Ótima combinação para noites mais frias.</p>
+          <div class="chopp-card__media">
+            <img class="chopp-card__img" src="images/chopp/ice.png" alt="Chopp Ice Anbier" width="340" height="227" loading="lazy" decoding="async">
+          </div>
+          <div class="chopp-card__meta">
+            <span class="chopp-card__abv">ABV 8% - 12%</span>
+            <span class="chopp-card__ibu">IBU 25 - 35</span>
+          </div>
+          <h3 class="chopp-card__title">Chopp Ice</h3>
+          <p class="chopp-card__text">O Chopp Ice Anbier oferece uma experiência extremamente refrescante, com sabor leve, toque adocicado e alta drinkabilidade. Sua filtragem especial proporciona coloração clara e brilho acentuado, resultando em um chopp suave, fácil de beber e ideal para momentos de calor intenso.</p>
+          <div class="chopp-card__footer">
+            <div class="chopp-card__format">
+              <svg class="icon"><use href="#i-barrel"/></svg>
+              <span>Barril 30L / 50L · Growler 1L</span>
+            </div>
+            <a class="btn btn--chopp" href="https://wa.me/5511954108871?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20gostaria%20de%20um%20or%C3%A7amento%20do%20Chopp%20Ice%20Anbier." target="_blank" rel="noopener">
+              <svg class="icon"><use href="#i-chat"/></svg> Pedir no WhatsApp
+            </a>
+          </div>
         </div>
+
+        <!-- 5. Chopp Avelã -->
         <div class="chopp-card">
-          <div class="chopp-card__top"><svg class="chopp-card__glass"><use href="#i-glass"/></svg><span class="chopp-card__abv">ABV 5,5%</span></div>
+          <div class="chopp-card__media">
+            <img class="chopp-card__img" src="images/chopp/avela.png" alt="Chopp Avelã Anbier" width="340" height="227" loading="lazy" decoding="async">
+          </div>
+          <div class="chopp-card__meta">
+            <span class="chopp-card__abv">ABV 4,5% - 5,5%</span>
+            <span class="chopp-card__ibu">IBU 08</span>
+          </div>
+          <h3 class="chopp-card__title">Chopp Avelã</h3>
+          <p class="chopp-card__text">O Chopp Avelã Anbier combina a leveza do chopp claro com um toque marcante de avelã, trazendo aroma adocicado, notas de castanhas e um sabor cremoso e envolvente. Corpo médio, final levemente adocicado e excelente equilíbrio entre refrescância e intensidade aromática.</p>
+          <div class="chopp-card__footer">
+            <div class="chopp-card__format">
+              <svg class="icon"><use href="#i-barrel"/></svg>
+              <span>Barril 30L / 50L · Growler 1L</span>
+            </div>
+            <a class="btn btn--chopp" href="https://wa.me/5511954108871?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20gostaria%20de%20um%20or%C3%A7amento%20do%20Chopp%20Avel%C3%A3%20Anbier." target="_blank" rel="noopener">
+              <svg class="icon"><use href="#i-chat"/></svg> Pedir no WhatsApp
+            </a>
+          </div>
+        </div>
+
+        <!-- 6. Chopp Lager -->
+        <div class="chopp-card">
+          <div class="chopp-card__media">
+            <img class="chopp-card__img" src="images/chopp/larger.png" alt="Chopp Lager Anbier" width="340" height="227" loading="lazy" decoding="async">
+          </div>
+          <div class="chopp-card__meta">
+            <span class="chopp-card__abv">ABV 4,5% - 5,5%</span>
+            <span class="chopp-card__ibu">IBU 20</span>
+          </div>
+          <h3 class="chopp-card__title">Chopp Lager</h3>
+          <p class="chopp-card__text">O Chopp Lager Anbier apresenta coloração dourada brilhante, corpo leve. Produzido com maltes selecionados e lúpulos equilibrados, oferece aroma sutil de cereais, amargor moderado, entrega um perfil clássico de lager, refrescante e com excelente estabilidade sensorial.</p>
+          <div class="chopp-card__footer">
+            <div class="chopp-card__format">
+              <svg class="icon"><use href="#i-barrel"/></svg>
+              <span>Barril 30L / 50L · Growler 1L</span>
+            </div>
+            <a class="btn btn--chopp" href="https://wa.me/5511954108871?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20gostaria%20de%20um%20or%C3%A7amento%20do%20Chopp%20Lager%20Anbier." target="_blank" rel="noopener">
+              <svg class="icon"><use href="#i-chat"/></svg> Pedir no WhatsApp
+            </a>
+          </div>
+        </div>
+
+        <!-- 7. Chopp de Vinho Branco -->
+        <div class="chopp-card">
+          <div class="chopp-card__media">
+            <img class="chopp-card__img" src="images/chopp/vinho-branco.png" alt="Chopp de Vinho Branco Anbier" width="340" height="227" loading="lazy" decoding="async">
+          </div>
+          <div class="chopp-card__meta">
+            <span class="chopp-card__abv">ABV 4,5% - 5,5%</span>
+            <span class="chopp-card__ibu">IBU 10 - 15</span>
+          </div>
+          <h3 class="chopp-card__title">Chopp de Vinho Branco</h3>
+          <p class="chopp-card__text">O Chopp de Vinho Branco Anbier combina a leveza do chopp claro com a elegância do vinho branco, resultando em uma bebida refrescante, aromática e de dulçor equilibrado. Apresenta coloração palha brilhante, aroma frutado e final leve e agradável, perfeita para quem busca algo diferenciado.</p>
+          <div class="chopp-card__footer">
+            <div class="chopp-card__format">
+              <svg class="icon"><use href="#i-barrel"/></svg>
+              <span>Barril 30L / 50L · Growler 1L</span>
+            </div>
+            <a class="btn btn--chopp" href="https://wa.me/5511954108871?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20gostaria%20de%20um%20or%C3%A7amento%20do%20Chopp%20de%20Vinho%20Branco%20Anbier." target="_blank" rel="noopener">
+              <svg class="icon"><use href="#i-chat"/></svg> Pedir no WhatsApp
+            </a>
+          </div>
+        </div>
+
+        <!-- 8. Chopp de Vinho Tinto -->
+        <div class="chopp-card">
+          <div class="chopp-card__media">
+            <img class="chopp-card__img" src="images/chopp/vinho-tinto.png" alt="Chopp de Vinho Tinto Anbier" width="340" height="227" loading="lazy" decoding="async">
+          </div>
+          <div class="chopp-card__meta">
+            <span class="chopp-card__abv">ABV 4,5% - 6%</span>
+            <span class="chopp-card__ibu">IBU 20 - 40</span>
+          </div>
           <h3 class="chopp-card__title">Chopp de Vinho Tinto</h3>
-          <p class="chopp-card__text">A mistura que virou febre nas festas: doçura da uva e suavidade do malte em equilíbrio.</p>
-        </div>
-        <div class="chopp-card">
-          <div class="chopp-card__top"><svg class="chopp-card__glass"><use href="#i-glass"/></svg><span class="chopp-card__abv">ABV 4,3%</span></div>
-          <h3 class="chopp-card__title">Session Citrus APA</h3>
-          <p class="chopp-card__text">Leve, com toque cítrico e baixo teor alcoólico. Perfeita pra eventos longos e sol quente.</p>
+          <p class="chopp-card__text">Sabor marcante e irresistível! O Chopp de Vinho Anbier une a leveza do chopp com a intensidade aromática do vinho, entregando uma bebida refrescante, adocicada e com coloração rubi que chama atenção no copo. Uma opção diferenciada que conquista quem busca algo especial.</p>
+          <div class="chopp-card__footer">
+            <div class="chopp-card__format">
+              <svg class="icon"><use href="#i-barrel"/></svg>
+              <span>Barril 30L / 50L · Growler 1L</span>
+            </div>
+            <a class="btn btn--chopp" href="https://wa.me/5511954108871?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20gostaria%20de%20um%20or%C3%A7amento%20do%20Chopp%20de%20Vinho%20Tinto%20Anbier." target="_blank" rel="noopener">
+              <svg class="icon"><use href="#i-chat"/></svg> Pedir no WhatsApp
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -824,7 +1020,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- ============================= SOBRE ============================= -->
   <section class="section section--light" id="sobre">
     <div class="wrap about">
-      <div class="about__badge" data-reveal><svg class="icon"><use href="#i-barrel"/></svg></div>
+      <div class="about__media" data-reveal>
+        <div class="about__frame">
+          <img class="about__img" src="images/anbier-logo.jpg" alt="Logo Cervejaria Anbier Cantareira e Região" width="810" height="810" loading="lazy" decoding="async">
+        </div>
+      </div>
       <div class="about__text" data-reveal>
         <span class="eyebrow">Quem somos</span>
         <h2 class="section-title" style="margin-bottom:1.25rem;">Uma unidade Anbier, com a cara da Cantareira</h2>
